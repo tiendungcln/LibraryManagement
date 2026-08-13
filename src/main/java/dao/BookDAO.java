@@ -1,0 +1,96 @@
+package dao;
+
+import model.Book;
+import util.DBConnection;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class BookDAO {
+
+    public boolean addBook(Book book){
+
+        String sql = "INSERT INTO books(title, author, publisher, publish_date, price, isbn, quantity)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ps.setString(1, book.getTitle());
+            ps.setString(2, book.getAuthor());
+            ps.setString(3, book.getPublisher());
+            ps.setDate(4, book.getPublishDate());
+            ps.setBigDecimal(5, book.getPrice());
+            ps.setString(6, book.getIsbn());
+            ps.setInt(7, book.getQuantity());
+
+            int rows = ps.executeUpdate();
+            if (rows > 0){
+                return true;
+            }
+
+            return false;
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+            return false;
+
+        }
+
+    }
+
+    public List<Book> getAllBooks(){
+
+        List<Book> books = new ArrayList<>();
+
+        String sql = "SELECT * FROM books";
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+
+                Book book = new Book(
+                        rs.getInt("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("publisher"),
+                        rs.getDate("publish_date"),
+                        rs.getBigDecimal("price"),
+                        rs.getString("isbn"),
+                        rs.getInt("quantity")
+                );
+
+                books.add(book);
+
+            }
+
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+
+        }
+
+        return books;
+
+    }
+
+    public void findById(){}
+
+    public void updateBook(){}
+
+    public void deleteBook(){}
+
+}
