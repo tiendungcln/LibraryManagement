@@ -14,7 +14,7 @@ public class BookDAO {
 
     public boolean addBook(Book book){
 
-        String sql = "INSERT INTO books(title, author, publisher, publish_date, price, isbn, quantity)" +
+        String sql = "INSERT INTO books(title, author, publisher, publish_date, price, isbn, quantity) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (
@@ -31,6 +31,7 @@ public class BookDAO {
             ps.setInt(7, book.getQuantity());
 
             int rows = ps.executeUpdate();
+
             if (rows > 0){
                 return true;
             }
@@ -76,7 +77,6 @@ public class BookDAO {
 
             }
 
-
         }catch (SQLException | IOException e){
 
             e.printStackTrace();
@@ -87,10 +87,103 @@ public class BookDAO {
 
     }
 
-    public void findById(){}
+    public Book getBookById(int id){
 
-    public void updateBook(){}
+        String sql = "SELECT * FROM books " +
+                "WHERE book_id = ?";
 
-    public void deleteBook(){}
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+             if (rs.next()){
+
+                 Book book = new Book(
+                         rs.getInt("book_id"),
+                         rs.getString("title"),
+                         rs.getString("author"),
+                         rs.getString("publisher"),
+                         rs.getDate("publish_date"),
+                         rs.getBigDecimal("price"),
+                         rs.getString("isbn"),
+                         rs.getInt("quantity")
+                 );
+
+                 return book;
+
+             }
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+
+        }
+
+        return null;
+
+    }
+
+    public boolean updateBook(Book book){
+
+        String sql = "UPDATE books " +
+                "SET title = ?, author = ?, publisher = ?, publish_date = ?, price = ?, isbn = ?, quantity = ? " +
+                "WHERE book_id = ?";
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ps.setString(1, book.getTitle());
+            ps.setString(2, book.getAuthor());
+            ps.setString(3, book.getPublisher());
+            ps.setDate(4, book.getPublishDate());
+            ps.setBigDecimal(5, book.getPrice());
+            ps.setString(6, book.getIsbn());
+            ps.setInt(7, book.getQuantity());
+            ps.setInt(8, book.getBookId());
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0;
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+            return false;
+
+        }
+
+    }
+
+    public boolean deleteBook(int id){
+
+        String sql = "DELETE FROM books " +
+                "WHERE book_id = ?";
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ps.setInt(1, id);
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0;
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+            return false;
+
+        }
+
+    }
 
 }
