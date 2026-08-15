@@ -1,6 +1,7 @@
 package app;
 
 import dao.BookDAO;
+import menu.Menu;
 import model.Book;
 import util.DBConnection;
 
@@ -26,6 +27,9 @@ public class Main {
             e.printStackTrace();
 
         }
+
+        Menu menu = new Menu();
+        menu.start();
 
     }
 

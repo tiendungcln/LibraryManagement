@@ -47,7 +47,7 @@ public class BookDAO {
 
     }
 
-    public List<Book> getAllBooks(){
+    public List<Book> showAllBooks(){
 
         List<Book> books = new ArrayList<>();
 
@@ -87,7 +87,7 @@ public class BookDAO {
 
     }
 
-    public Book getBookById(int id){
+    public Book findBookById(int id){
 
         String sql = "SELECT * FROM books " +
                 "WHERE book_id = ?";
