@@ -1,13 +1,9 @@
 package app;
 
-import dao.BookDAO;
-import menu.Menu;
-import model.Book;
+import menu.MainMenu;
 import util.DBConnection;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
 
 public class Main {
 
@@ -28,8 +24,8 @@ public class Main {
 
         }
 
-        Menu menu = new Menu();
-        menu.start();
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.start();
 
     }
 

@@ -5,11 +5,10 @@ import model.Book;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Menu {
+public class BookMenu {
 
     private Scanner sc = new Scanner(System.in);
     private BookDAO bookDAO = new BookDAO();
@@ -18,7 +17,6 @@ public class Menu {
 
         while (true){
 
-            // 1. Hiển thị menu
             System.out.println("===== Library Management =====");
             System.out.println("1. Add Book");
             System.out.println("2. Show All Books");
@@ -27,12 +25,10 @@ public class Menu {
             System.out.println("5. Delete Book");
             System.out.println("0. Exit");
 
-            // 2. Nhập lựa chọn
             System.out.print("Choose: ");
             int choice = sc.nextInt();
             sc.nextLine();
 
-            // 3. Xử lý lựa chọn
             switch (choice){
 
                 case 1:
