@@ -8,16 +8,19 @@ public class Book {
     private int bookId;
     private String title;
     private int authorId;
+    private String authorName;
     private String publisher;
     private Date publishDate;
     private BigDecimal price;
     private String isbn;
     private int quantity;
 
+    // 1. Constructor rỗng
     public Book(){
 
     }
 
+    // 2. Có bookId (dùng cho SELECT)
     public Book(int bookId, String title, int authorId, String publisher, Date publishDate, BigDecimal price, String isbn, int quantity){
         this.bookId = bookId;
         this.title = title;
@@ -29,6 +32,7 @@ public class Book {
         this.quantity = quantity;
     }
 
+    // 3. Không có bookId (dùng cho INSERT)
     public Book(String title, int authorId, String publisher, Date publishDate, BigDecimal price, String isbn, int quantity){
         this.title = title;
         this.authorId = authorId;
@@ -38,6 +42,21 @@ public class Book {
         this.isbn = isbn;
         this.quantity = quantity;
     }
+
+    // 4. Dùng cho JOIN
+    public Book(int bookId, String title, int authorId, String authorName, String publisher, Date publishDate, BigDecimal price, String isbn, int quantity){
+        this.bookId = bookId;
+        this.title = title;
+        this.authorId = authorId;
+        this.authorName = authorName;
+        this.publisher = publisher;
+        this.publishDate = publishDate;
+        this.price = price;
+        this.isbn = isbn;
+        this.quantity = quantity;
+    }
+
+
 
     public int getBookId(){
         return bookId;
@@ -103,12 +122,21 @@ public class Book {
         this.quantity = quantity;
     }
 
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
                 "bookId=" + bookId +
                 ", title='" + title + '\'' +
-                ", authorId='" + authorId + '\'' +
+                ", authorId=" + authorId +
+                ", authorName='" + authorName + '\'' +
                 ", publisher='" + publisher + '\'' +
                 ", publishDate=" + publishDate +
                 ", price=" + price +
@@ -116,5 +144,6 @@ public class Book {
                 ", quantity=" + quantity +
                 '}';
     }
+
 }
 
