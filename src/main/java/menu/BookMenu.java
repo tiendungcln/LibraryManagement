@@ -25,8 +25,9 @@ public class BookMenu {
             System.out.println("2. Show All Books");
             System.out.println("3. Find Book By ID");
             System.out.println("4. Search Book");
-            System.out.println("5. Update Book");
-            System.out.println("6. Delete Book");
+            System.out.println("5. Sort Ascending");
+            System.out.println("6. Update Book");
+            System.out.println("7. Delete Book");
             System.out.println("0. Exit");
 
             System.out.print("Choose: ");
@@ -52,10 +53,14 @@ public class BookMenu {
                     break;
 
                 case 5:
-                    updateBook();
+                    sortBooksByPrice();
                     break;
 
                 case 6:
+                    updateBook();
+                    break;
+
+                case 7:
                     deleteBook();
                     break;
 
@@ -150,6 +155,22 @@ public class BookMenu {
         String keyword = sc.nextLine();
 
         List<Book> books = bookDAO.searchBooks(keyword);
+
+        for (Book book : books){
+
+            System.out.println(book);
+
+        }
+
+    }
+
+    private void sortBooksByPrice(){
+
+        System.out.print("Sort ascending? (true/false): ");
+        boolean ascending = sc.nextBoolean();
+        sc.nextLine();
+
+        List<Book> books = bookDAO.sortBooksByPrice(ascending);
 
         for (Book book : books){
 

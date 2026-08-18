@@ -201,6 +201,63 @@ public class BookDAO {
 
     }
 
+    public List<Book> sortBooksByPrice(boolean ascending){
+
+        List<Book> books = new ArrayList<>();
+
+        String order = ascending ? "ASC" : "DESC";
+
+        String sql = """
+                 SELECT
+                    b.book_id,
+                    b.title, 
+                    b.author_id,
+                    a.author_name AS author,
+                    b.publisher, 
+                    b.publish_date, 
+                    b.price, 
+                    b.isbn, 
+                    b.quantity
+                FROM books b 
+                JOIN authors a 
+                    ON b.author_id = a.author_id
+                ORDER BY b.price
+                """ + order;
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getInt("book_id"),
+                        rs.getString("title"),
+                        rs.getInt("author_id"),
+                        rs.getString("author"),
+                        rs.getString("publisher"),
+                        rs.getDate("publish_date"),
+                        rs.getBigDecimal("price"),
+                        rs.getString("isbn"),
+                        rs.getInt("quantity")
+                );
+
+                books.add(book);
+
+            }
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+
+        }
+
+        return books;
+
+    }
+
     public boolean updateBook(Book book){
 
         String sql = "UPDATE books " +
