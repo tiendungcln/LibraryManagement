@@ -24,8 +24,9 @@ public class BookMenu {
             System.out.println("1. Add Book");
             System.out.println("2. Show All Books");
             System.out.println("3. Find Book By ID");
-            System.out.println("4. Update Book");
-            System.out.println("5. Delete Book");
+            System.out.println("4. Search Book");
+            System.out.println("5. Update Book");
+            System.out.println("6. Delete Book");
             System.out.println("0. Exit");
 
             System.out.print("Choose: ");
@@ -47,10 +48,14 @@ public class BookMenu {
                     break;
 
                 case 4:
-                    updateBook();
+                    searchBooks();
                     break;
 
                 case 5:
+                    updateBook();
+                    break;
+
+                case 6:
                     deleteBook();
                     break;
 
@@ -135,6 +140,21 @@ public class BookMenu {
             System.out.println(book);
         }else{
             System.out.println("Book not found!");
+        }
+
+    }
+
+    private void searchBooks(){
+
+        System.out.print("Enter name book: ");
+        String keyword = sc.nextLine();
+
+        List<Book> books = bookDAO.searchBooks(keyword);
+
+        for (Book book : books){
+
+            System.out.println(book);
+
         }
 
     }
