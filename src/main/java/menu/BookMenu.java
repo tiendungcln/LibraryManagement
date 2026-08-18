@@ -1,6 +1,8 @@
 package menu;
 
+import dao.AuthorDAO;
 import dao.BookDAO;
+import model.Author;
 import model.Book;
 
 import java.math.BigDecimal;
@@ -12,6 +14,7 @@ public class BookMenu {
 
     private Scanner sc = new Scanner(System.in);
     private BookDAO bookDAO = new BookDAO();
+    private AuthorDAO authorDAO = new AuthorDAO();
 
     public void start(){
 
@@ -68,8 +71,16 @@ public class BookMenu {
         System.out.print("Enter title: ");
         String title = sc.nextLine();
 
+        System.out.println("===== Authors =====");
+        List<Author> authors = authorDAO.showAllAuthors();
+
+        for (Author author : authors){
+            System.out.println(author);
+        }
+
         System.out.print("Enter author: ");
-        String author = sc.nextLine();
+        int authorId = sc.nextInt();
+        sc.nextLine();
 
         System.out.print("Enter publisher: ");
         String publisher = sc.nextLine();
@@ -88,7 +99,7 @@ public class BookMenu {
         int quantity = sc.nextInt();
         sc.nextLine();
 
-        Book book = new Book(title, author, publisher, publishDate, price, isbn, quantity);
+        Book book = new Book(title, authorId, publisher, publishDate, price, isbn, quantity);
 
         boolean result = bookDAO.addBook(book);
 
@@ -149,8 +160,16 @@ public class BookMenu {
         System.out.print("Enter new title: ");
         String title = sc.nextLine();
 
+        System.out.println("===== Authors =====");
+        List<Author> authors = authorDAO.showAllAuthors();
+
+        for (Author author : authors){
+            System.out.println(author);
+        }
+
         System.out.print("Enter new author: ");
-        String author = sc.nextLine();
+        int authorId = sc.nextInt();
+        sc.nextLine();
 
         System.out.print("Enter new publisher: ");
         String publisher = sc.nextLine();
@@ -169,7 +188,7 @@ public class BookMenu {
         int quantity = sc.nextInt();
         sc.nextLine();
 
-        Book book = new Book(id, title, author, publisher, publishDate, price, isbn, quantity);
+        Book book = new Book(id, title, authorId, publisher, publishDate, price, isbn, quantity);
 
         boolean result = bookDAO.updateBook(book);
 

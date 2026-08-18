@@ -7,7 +7,7 @@ public class Book {
 
     private int bookId;
     private String title;
-    private String author;
+    private int authorId;
     private String publisher;
     private Date publishDate;
     private BigDecimal price;
@@ -18,10 +18,10 @@ public class Book {
 
     }
 
-    public Book(int bookId, String title, String author, String publisher, Date publishDate, BigDecimal price, String isbn, int quantity){
+    public Book(int bookId, String title, int authorId, String publisher, Date publishDate, BigDecimal price, String isbn, int quantity){
         this.bookId = bookId;
         this.title = title;
-        this.author = author;
+        this.authorId = authorId;
         this.publisher = publisher;
         this.publishDate = publishDate;
         this.price = price;
@@ -29,9 +29,9 @@ public class Book {
         this.quantity = quantity;
     }
 
-    public Book(String title, String author, String publisher, Date publishDate, BigDecimal price, String isbn, int quantity){
+    public Book(String title, int authorId, String publisher, Date publishDate, BigDecimal price, String isbn, int quantity){
         this.title = title;
-        this.author = author;
+        this.authorId = authorId;
         this.publisher = publisher;
         this.publishDate = publishDate;
         this.price = price;
@@ -55,12 +55,12 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public int getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 
     public String getPublisher() {
@@ -108,7 +108,7 @@ public class Book {
         return "Book{" +
                 "bookId=" + bookId +
                 ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
+                ", authorId='" + authorId + '\'' +
                 ", publisher='" + publisher + '\'' +
                 ", publishDate=" + publishDate +
                 ", price=" + price +

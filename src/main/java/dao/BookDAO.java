@@ -14,7 +14,7 @@ public class BookDAO {
 
     public boolean addBook(Book book){
 
-        String sql = "INSERT INTO books(title, author, publisher, publish_date, price, isbn, quantity) " +
+        String sql = "INSERT INTO books(title, author_id, publisher, publish_date, price, isbn, quantity) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (
@@ -23,7 +23,7 @@ public class BookDAO {
         ){
 
             ps.setString(1, book.getTitle());
-            ps.setString(2, book.getAuthor());
+            ps.setInt(2, book.getAuthorId());
             ps.setString(3, book.getPublisher());
             ps.setDate(4, book.getPublishDate());
             ps.setBigDecimal(5, book.getPrice());
@@ -65,7 +65,7 @@ public class BookDAO {
                 Book book = new Book(
                         rs.getInt("book_id"),
                         rs.getString("title"),
-                        rs.getString("author"),
+                        rs.getInt("author_id"),
                         rs.getString("publisher"),
                         rs.getDate("publish_date"),
                         rs.getBigDecimal("price"),
@@ -106,7 +106,7 @@ public class BookDAO {
                  Book book = new Book(
                          rs.getInt("book_id"),
                          rs.getString("title"),
-                         rs.getString("author"),
+                         rs.getInt("author_id"),
                          rs.getString("publisher"),
                          rs.getDate("publish_date"),
                          rs.getBigDecimal("price"),
@@ -131,7 +131,7 @@ public class BookDAO {
     public boolean updateBook(Book book){
 
         String sql = "UPDATE books " +
-                "SET title = ?, author = ?, publisher = ?, publish_date = ?, price = ?, isbn = ?, quantity = ? " +
+                "SET title = ?, author_id = ?, publisher = ?, publish_date = ?, price = ?, isbn = ?, quantity = ? " +
                 "WHERE book_id = ?";
 
         try (
@@ -140,7 +140,7 @@ public class BookDAO {
         ){
 
             ps.setString(1, book.getTitle());
-            ps.setString(2, book.getAuthor());
+            ps.setInt(2, book.getAuthorId());
             ps.setString(3, book.getPublisher());
             ps.setDate(4, book.getPublishDate());
             ps.setBigDecimal(5, book.getPrice());
