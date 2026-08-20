@@ -24,12 +24,14 @@ public class BookMenu {
             System.out.println("1. Add Book");
             System.out.println("2. Show All Books");
             System.out.println("3. Find Book By ID");
-            System.out.println("4. Search Books by title");
-            System.out.println("5. Sort Books by Price");
-            System.out.println("6. Sort Books by Publish Date");
-            System.out.println("7. Filter Books by Price");
-            System.out.println("8. Update Book");
-            System.out.println("9. Delete Book");
+            System.out.println("4. Search Books by Title");
+            System.out.println("5. Search Books by Author");
+            System.out.println("6. Search Books by ISBN");
+            System.out.println("7. Sort Books by Price");
+            System.out.println("8. Sort Books by Publish Date");
+            System.out.println("9. Filter Books by Price");
+            System.out.println("10. Update Book");
+            System.out.println("11. Delete Book");
             System.out.println("0. Exit");
 
             System.out.print("Choose: ");
@@ -55,22 +57,30 @@ public class BookMenu {
                     break;
 
                 case 5:
-                    sortBooksByPrice();
+                    searchBooksByAuthor();
                     break;
 
                 case 6:
-                    sortBooksByPublishDate();
+                    searchBooksByIsbn();
                     break;
 
                 case 7:
-                    filterBooksByPrice();
+                    sortBooksByPrice();
                     break;
 
                 case 8:
-                    updateBook();
+                    sortBooksByPublishDate();
                     break;
 
                 case 9:
+                    filterBooksByPrice();
+                    break;
+
+                case 10:
+                    updateBook();
+                    break;
+
+                case 11:
                     deleteBook();
                     break;
 
@@ -177,6 +187,25 @@ public class BookMenu {
         }
 
     }
+
+    private void searchBooksByAuthor(){
+
+        System.out.print("Enter name author: ");
+        String keyword = sc.nextLine();
+
+        List<Book> books = bookDAO.searchBooksByAuthor(keyword);
+
+        if (books.isEmpty()){
+            System.out.println("No books found with this author!");
+        }else{
+            for (Book book : books){
+                System.out.println(book);
+            }
+        }
+
+    }
+
+    private void searchBooksByIsbn(){}
 
     private void sortBooksByPrice(){
 
