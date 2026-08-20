@@ -122,7 +122,7 @@ public class BookMenu {
         BigDecimal price = sc.nextBigDecimal();
         sc.nextLine();
 
-        System.out.print("Enter isbn: ");
+        System.out.print("Enter ISBN: ");
         String isbn = sc.nextLine();
 
         System.out.print("Enter quantity: ");
@@ -205,7 +205,22 @@ public class BookMenu {
 
     }
 
-    private void searchBooksByIsbn(){}
+    private void searchBooksByIsbn(){
+
+        System.out.print("Enter ISBN: ");
+        String keyword = sc.nextLine();
+
+        List<Book> books = bookDAO.searchBooksByIsbn(keyword);
+
+        if (books.isEmpty()){
+            System.out.println("No books found with this ISBN!");
+        }else{
+            for (Book book : books){
+                System.out.println(book);
+            }
+        }
+
+    }
 
     private void sortBooksByPrice(){
 
@@ -307,7 +322,7 @@ public class BookMenu {
         BigDecimal price = sc.nextBigDecimal();
         sc.nextLine();
 
-        System.out.print("Enter new isbn: ");
+        System.out.print("Enter new ISBN: ");
         String isbn = sc.nextLine();
 
         System.out.print("Enter new quantity: ");
