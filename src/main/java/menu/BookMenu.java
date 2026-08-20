@@ -25,9 +25,11 @@ public class BookMenu {
             System.out.println("2. Show All Books");
             System.out.println("3. Find Book By ID");
             System.out.println("4. Search Book");
-            System.out.println("5. Sort Ascending");
-            System.out.println("6. Update Book");
-            System.out.println("7. Delete Book");
+            System.out.println("5. Sort Books by Price");
+            System.out.println("6. Filter Books by Price");
+            System.out.println("7. Sort Books by Publish Date");
+            System.out.println("8. Update Book");
+            System.out.println("9. Delete Book");
             System.out.println("0. Exit");
 
             System.out.print("Choose: ");
@@ -49,7 +51,7 @@ public class BookMenu {
                     break;
 
                 case 4:
-                    searchBooks();
+                    searchBooksByPrice();
                     break;
 
                 case 5:
@@ -57,10 +59,18 @@ public class BookMenu {
                     break;
 
                 case 6:
-                    updateBook();
+                    filterBooksByPrice();
                     break;
 
                 case 7:
+                    sortBooksByPublishDate();
+                    break;
+
+                case 8:
+                    updateBook();
+                    break;
+
+                case 9:
                     deleteBook();
                     break;
 
@@ -125,10 +135,12 @@ public class BookMenu {
 
         List<Book> books = bookDAO.showAllBooks();
 
-        for (Book book : books){
-
-            System.out.println(book);
-
+        if (books.isEmpty()){
+            System.out.println("Book not found!");
+        }else{
+            for (Book book : books){
+                System.out.println(book);
+            }
         }
 
     }
@@ -149,17 +161,19 @@ public class BookMenu {
 
     }
 
-    private void searchBooks(){
+    private void searchBooksByPrice(){
 
         System.out.print("Enter name book: ");
         String keyword = sc.nextLine();
 
         List<Book> books = bookDAO.searchBooks(keyword);
 
-        for (Book book : books){
-
-            System.out.println(book);
-
+        if (books.isEmpty()){
+            System.out.println("Book not found!");
+        }else{
+            for (Book book : books){
+                System.out.println(book);
+            }
         }
 
     }
@@ -172,13 +186,39 @@ public class BookMenu {
 
         List<Book> books = bookDAO.sortBooksByPrice(ascending);
 
-        for (Book book : books){
-
-            System.out.println(book);
-
+        if (books.isEmpty()){
+            System.out.println("Book not found!");
+        }else{
+            for (Book book : books){
+                System.out.println(book);
+            }
         }
 
     }
+
+    private void filterBooksByPrice(){
+
+        System.out.print("Enter minimum price: ");
+        BigDecimal minPrice = sc.nextBigDecimal();
+        sc.nextLine();
+
+        System.out.print("Enter maximum price: ");
+        BigDecimal maxPrice = sc.nextBigDecimal();
+        sc.nextLine();
+
+        List<Book> books = bookDAO.filterBooksByPrice(minPrice, maxPrice);
+
+        if (books.isEmpty()){
+            System.out.println("Book not found!");
+        }else{
+            for (Book book : books){
+                System.out.println(book);
+            }
+        }
+
+    }
+
+    private void sortBooksByPublishDate(){}
 
     private void updateBook() {
 

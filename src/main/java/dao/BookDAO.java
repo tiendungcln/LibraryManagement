@@ -3,6 +3,7 @@ package dao;
 import model.Book;
 import util.DBConnection;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -257,6 +258,68 @@ public class BookDAO {
         return books;
 
     }
+
+    public List<Book> filterBooksByPrice(BigDecimal minPrice, BigDecimal maxPrice){
+
+        List<Book> books = new ArrayList<>();
+
+        String sql = """
+                SELECT
+                    b.book_id,
+                    b.title, 
+                    b.author_id,
+                    a.author_name AS author,
+                    b.publisher, 
+                    b.publish_date, 
+                    b.price, 
+                    b.isbn, 
+                    b.quantity
+                FROM books b 
+                JOIN authors a
+                    ON b.author_id = a.author_id
+                WHERE b.price BETWEEN ? AND ?
+                """;
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ps.setBigDecimal(1, minPrice);
+            ps.setBigDecimal(2, maxPrice);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getInt("book_id"),
+                        rs.getString("title"),
+                        rs.getInt("author_id"),
+                        rs.getString("author"),
+                        rs.getString("publisher"),
+                        rs.getDate("publish_date"),
+                        rs.getBigDecimal("price"),
+                        rs.getString("isbn"),
+                        rs.getInt("quantity")
+                );
+
+                books.add(book);
+
+            }
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+
+        }
+
+        return books;
+
+    }
+
+//    public List<Book> sortBooksByPublishDate(){
+//
+//    }
 
     public boolean updateBook(Book book){
 
