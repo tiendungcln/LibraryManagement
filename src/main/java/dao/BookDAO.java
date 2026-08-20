@@ -576,6 +576,32 @@ public class BookDAO {
 
     }
 
+    public BigDecimal getTotalBookPrice(){
+
+        String sql = "SELECT SUM(price) AS total_price " +
+                "FROM books";
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                return rs.getBigDecimal("total_price");
+            }
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+
+        }
+
+        return BigDecimal.ZERO;
+
+    }
+
 //    public BigDecimal getAverageBookPrice(){}
 //    public BigDecimal getMaxBookPrice(){}
 //    public BigDecimal getMinBookPrice(){}

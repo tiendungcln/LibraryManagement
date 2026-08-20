@@ -32,7 +32,12 @@ public class BookMenu {
             System.out.println("9. Filter Books by Price");
             System.out.println("10. Update Book");
             System.out.println("11. Delete Book");
-            System.out.println("12. Book Statistics");
+            System.out.println("12. Count Total Books");
+            System.out.println("13. Calculate Total Book Price");
+            System.out.println("14. Average Book Price");
+            System.out.println("15. Minimum Book Price");
+            System.out.println("16. Maximum Book Price");
+            System.out.println("17. Books Per Author");
             System.out.println("0. Exit");
 
             System.out.print("Choose: ");
@@ -87,6 +92,10 @@ public class BookMenu {
 
                 case 12:
                     countBooks();
+                    break;
+
+                case 13:
+                    getTotalBookPrice();
                     break;
 
                 case 0:
@@ -368,6 +377,13 @@ public class BookMenu {
 
         int totalBooks = bookDAO.countBooks();
         System.out.println("Total books: " + totalBooks);
+
+    }
+
+    private void getTotalBookPrice(){
+
+        BigDecimal totalPrice = bookDAO.getTotalBookPrice();
+        System.out.println("Total price: " + totalPrice);
 
     }
 
