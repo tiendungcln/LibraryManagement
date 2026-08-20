@@ -548,4 +548,36 @@ public class BookDAO {
 
     }
 
+    // Statistics
+
+    public int countBooks(){
+
+        String sql = "SELECT COUNT(*) AS total_books " +
+                "FROM books";
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                return rs.getInt("total_books");
+            }
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+
+        }
+
+        return 0;
+
+    }
+
+//    public BigDecimal getAverageBookPrice(){}
+//    public BigDecimal getMaxBookPrice(){}
+//    public BigDecimal getMinBookPrice(){}
+
 }

@@ -32,6 +32,7 @@ public class BookMenu {
             System.out.println("9. Filter Books by Price");
             System.out.println("10. Update Book");
             System.out.println("11. Delete Book");
+            System.out.println("12. Book Statistics");
             System.out.println("0. Exit");
 
             System.out.print("Choose: ");
@@ -82,6 +83,10 @@ public class BookMenu {
 
                 case 11:
                     deleteBook();
+                    break;
+
+                case 12:
+                    countBooks();
                     break;
 
                 case 0:
@@ -354,6 +359,15 @@ public class BookMenu {
         }else{
             System.out.println("Delete book failed!");
         }
+
+    }
+
+    // Statistics
+
+    private void countBooks(){
+
+        int totalBooks = bookDAO.countBooks();
+        System.out.println("Total books: " + totalBooks);
 
     }
 
