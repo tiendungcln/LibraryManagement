@@ -7,6 +7,7 @@ public class MainMenu {
     private Scanner sc = new Scanner(System.in);
     private BookMenu bookMenu = new BookMenu();
     private AuthorMenu authorMenu = new AuthorMenu();
+    private MemberMenu memberMenu = new MemberMenu();
 
     public void start(){
 
@@ -16,6 +17,7 @@ public class MainMenu {
             System.out.println("===== Library Management =====");
             System.out.println("1. Book Management");
             System.out.println("2. Author Management");
+            System.out.println("3. Member Management");
             System.out.println("0. Exit");
 
             // 2. Nhập lựa chọn
@@ -32,6 +34,10 @@ public class MainMenu {
 
                 case 2:
                     authorMenu.start();
+                    break;
+
+                case 3:
+                    memberMenu.start();
                     break;
 
                 case 0:
