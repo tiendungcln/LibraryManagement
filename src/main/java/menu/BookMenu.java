@@ -8,6 +8,7 @@ import model.Book;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class BookMenu {
@@ -108,6 +109,10 @@ public class BookMenu {
 
                 case 16:
                     getMinBooksPrice();
+                    break;
+
+                case 17:
+                    countBooksByAuthor();
                     break;
 
                 case 0:
@@ -417,6 +422,16 @@ public class BookMenu {
 
         BigDecimal minPrice = bookDAO.getMinBooksPrice();
         System.out.println("Max price: " + minPrice);
+
+    }
+
+    private void countBooksByAuthor(){
+
+        Map<String, Integer> result = bookDAO.countBooksByAuthor();
+
+        for (Map.Entry<String, Integer> entry : result.entrySet()){
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
 
     }
 

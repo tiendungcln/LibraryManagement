@@ -1,5 +1,6 @@
 package dao;
 
+import model.Author;
 import model.Book;
 import util.DBConnection;
 import java.io.IOException;
@@ -9,7 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BookDAO {
 
@@ -676,6 +679,44 @@ public class BookDAO {
         }
 
         return BigDecimal.ZERO;
+
+    }
+
+    public Map<String, Integer> countBooksByAuthor(){
+
+        Map<String, Integer> map = new HashMap<>();
+
+        String sql = """
+                SELECT
+                    a.author_name,
+                    COUNT(*) AS total_book
+                FROM books b 
+                JOIN authors a
+                    ON b.author_id = a.author_id
+                GROUP BY a.author_name
+                """;
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                String authorName = rs.getString("author_name");
+                int totalBook = rs.getInt("total_book");
+
+                map.put(authorName, totalBook);
+            }
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+
+        }
+
+        return map;
 
     }
 
