@@ -106,6 +106,10 @@ public class BookMenu {
                     getMaxBooksPrice();
                     break;
 
+                case 16:
+                    getMinBooksPrice();
+                    break;
+
                 case 0:
                     return;
 
@@ -406,6 +410,13 @@ public class BookMenu {
 
         BigDecimal maxPrice = bookDAO.getMaxBooksPrice();
         System.out.println("Max price: " + maxPrice);
+
+    }
+
+    private void getMinBooksPrice(){
+
+        BigDecimal minPrice = bookDAO.getMinBooksPrice();
+        System.out.println("Max price: " + minPrice);
 
     }
 

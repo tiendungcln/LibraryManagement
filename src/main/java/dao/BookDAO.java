@@ -652,6 +652,31 @@ public class BookDAO {
         return BigDecimal.ZERO;
 
     }
-//    public BigDecimal getMinBooksPrice(){}
+
+    public BigDecimal getMinBooksPrice(){
+
+        String sql = "SELECT MIN(price) AS min_price " +
+                "FROM books";
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                return rs.getBigDecimal("min_price");
+            }
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+
+        }
+
+        return BigDecimal.ZERO;
+
+    }
 
 }
