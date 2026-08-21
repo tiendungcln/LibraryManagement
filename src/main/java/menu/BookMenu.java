@@ -95,7 +95,11 @@ public class BookMenu {
                     break;
 
                 case 13:
-                    getTotalBookPrice();
+                    getTotalBooksPrice();
+                    break;
+
+                case 14:
+                    getAverageBooksPrice();
                     break;
 
                 case 0:
@@ -380,10 +384,17 @@ public class BookMenu {
 
     }
 
-    private void getTotalBookPrice(){
+    private void getTotalBooksPrice(){
 
-        BigDecimal totalPrice = bookDAO.getTotalBookPrice();
+        BigDecimal totalPrice = bookDAO.getTotalBooksPrice();
         System.out.println("Total price: " + totalPrice);
+
+    }
+
+    private void getAverageBooksPrice(){
+
+        BigDecimal averagePrice = bookDAO.getAverageBooksPrice();
+        System.out.println("Average price: " + averagePrice);
 
     }
 

@@ -576,9 +576,9 @@ public class BookDAO {
 
     }
 
-    public BigDecimal getTotalBookPrice(){
+    public BigDecimal getTotalBooksPrice(){
 
-        String sql = "SELECT SUM(price) AS total_price " +
+        String sql = "SELECT SUM(price) AS average_price " +
                 "FROM books";
 
         try (
@@ -589,7 +589,7 @@ public class BookDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()){
-                return rs.getBigDecimal("total_price");
+                return rs.getBigDecimal("average_price");
             }
 
         }catch (SQLException | IOException e){
@@ -602,7 +602,31 @@ public class BookDAO {
 
     }
 
-//    public BigDecimal getAverageBookPrice(){}
+    public BigDecimal getAverageBooksPrice(){
+
+        String sql = "SELECT AVG(price) AS avg_price " +
+                "FROM books";
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                return rs.getBigDecimal("avg_price");
+            }
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+
+        }
+
+        return BigDecimal.ZERO;
+
+    }
 //    public BigDecimal getMaxBookPrice(){}
 //    public BigDecimal getMinBookPrice(){}
 
