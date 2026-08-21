@@ -35,8 +35,8 @@ public class BookMenu {
             System.out.println("12. Count Total Books");
             System.out.println("13. Calculate Total Book Price");
             System.out.println("14. Average Book Price");
-            System.out.println("15. Minimum Book Price");
-            System.out.println("16. Maximum Book Price");
+            System.out.println("15. Maximum Book Price");
+            System.out.println("16. Minimum Book Price");
             System.out.println("17. Books Per Author");
             System.out.println("0. Exit");
 
@@ -100,6 +100,10 @@ public class BookMenu {
 
                 case 14:
                     getAverageBooksPrice();
+                    break;
+
+                case 15:
+                    getMaxBooksPrice();
                     break;
 
                 case 0:
@@ -395,6 +399,13 @@ public class BookMenu {
 
         BigDecimal averagePrice = bookDAO.getAverageBooksPrice();
         System.out.println("Average price: " + averagePrice);
+
+    }
+
+    private void getMaxBooksPrice(){
+
+        BigDecimal maxPrice = bookDAO.getMaxBooksPrice();
+        System.out.println("Max price: " + maxPrice);
 
     }
 
