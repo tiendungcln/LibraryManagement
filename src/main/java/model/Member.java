@@ -26,6 +26,13 @@ public class Member {
         this.phone = phone;
     }
 
+    public Member(int memberId ,String name, String email, String phone){
+        this.memberId = memberId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public int getMemberId() {
         return memberId;
     }
