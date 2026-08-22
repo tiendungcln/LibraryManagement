@@ -146,4 +146,30 @@ public class BorrowDAO {
 
     }
 
+    public boolean returnBook(int borrowId){
+
+        String sql = "UPDATE borrows " +
+                "SET return_date = CURRENT_DATE " +
+                "WHERE borrow_id = ?";
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ps.setInt(1, borrowId);
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0;
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+            return false;
+
+        }
+
+    }
+
 }

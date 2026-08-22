@@ -47,6 +47,10 @@ public class BorrowMenu {
                     findBorrowById();
                     break;
 
+                case 4:
+                    returnBook();
+                    break;
+
                 case 0:
                     return;
 
@@ -143,6 +147,43 @@ public class BorrowMenu {
             System.out.println(borrow);
         }else{
             System.out.println("Borrow not found!");
+        }
+
+    }
+
+    public void returnBook(){
+
+        System.out.print("Enter ID: ");
+        int borrowId = sc.nextInt();
+        sc.nextLine();
+
+        Borrow borrow = borrowDAO.findBorrowById(borrowId);
+
+        while (borrow == null){
+
+            System.out.println("Borrow not found!");
+
+            System.out.print("Enter Borrow ID again: ");
+            borrowId = sc.nextInt();
+            sc.nextLine();
+
+            borrow = borrowDAO.findBorrowById(borrowId);
+
+        }
+
+        if (borrow.getReturnDate() != null){
+
+            System.out.println("Book already returned");
+            return;
+
+        }
+
+        boolean result = borrowDAO.returnBook(borrowId);
+
+        if (result){
+            System.out.println("Return book successfully!");
+        }else{
+            System.out.println("Return book failed!");
         }
 
     }
