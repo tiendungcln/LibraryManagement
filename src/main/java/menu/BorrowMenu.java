@@ -111,14 +111,24 @@ public class BorrowMenu {
 
         }
 
+        if (book.getQuantity() <= 0){
+            return;
+        }
+
         Borrow borrow = new Borrow(memberId, bookId);
 
         boolean result = borrowDAO.addBorrow(borrow);
 
         if (result){
+
             System.out.println("Add borrow successfully!");
+
+            bookDAO.decreaseBookQuantity(bookId);
+
         }else{
+
             System.out.println("Add borrow failed!");
+
         }
 
     }
@@ -181,9 +191,15 @@ public class BorrowMenu {
         boolean result = borrowDAO.returnBook(borrowId);
 
         if (result){
+
             System.out.println("Return book successfully!");
+
+            bookDAO.increaseBookQuantity(borrow.getBookId());
+
         }else{
+
             System.out.println("Return book failed!");
+
         }
 
     }

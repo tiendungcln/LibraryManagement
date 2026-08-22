@@ -720,4 +720,56 @@ public class BookDAO {
 
     }
 
+    public boolean decreaseBookQuantity(int bookId){
+
+        String sql = "UPDATE books " +
+                "SET quantity = quantity - 1 " +
+                "WHERE book_id = ? " +
+                "AND quantity > 0";
+
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ps.setInt(1, bookId);
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0;
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+            return false;
+
+        }
+
+    }
+
+    public boolean increaseBookQuantity(int bookId){
+
+        String sql = "UPDATE books " +
+                "SET quantity = quantity + 1 " +
+                "WHERE book_id = ? ";
+        try (
+                Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+
+            ps.setInt(1, bookId);
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0;
+
+        }catch (SQLException | IOException e){
+
+            e.printStackTrace();
+            return false;
+
+        }
+
+    }
+
 }
