@@ -39,6 +39,10 @@ public class BorrowMenu {
                     addBorrow();
                     break;
 
+                case 2:
+                    showAllBorrows();
+                    break;
+
                 case 0:
                     return;
 
@@ -107,6 +111,18 @@ public class BorrowMenu {
             System.out.println("Add borrow successfully!");
         }else{
             System.out.println("Add borrow failed!");
+        }
+
+    }
+
+    public void showAllBorrows(){
+
+        List<Borrow> borrows = borrowDAO.showAllBorrows();
+
+        for (Borrow borrow : borrows){
+
+            System.out.println(borrow);
+
         }
 
     }

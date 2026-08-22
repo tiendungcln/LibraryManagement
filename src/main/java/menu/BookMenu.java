@@ -139,9 +139,22 @@ public class BookMenu {
             System.out.println(author);
         }
 
-        System.out.print("Enter author: ");
+        System.out.print("Enter author ID: ");
         int authorId = sc.nextInt();
         sc.nextLine();
+
+        Author author = authorDAO.findAuthorById(authorId);
+        while (author == null){
+
+            System.out.println("Author not found!");
+
+            System.out.print("Enter author ID again: ");
+            authorId = sc.nextInt();
+            sc.nextLine();
+
+            author = authorDAO.findAuthorById(authorId);
+
+        }
 
         System.out.print("Enter publisher: ");
         String publisher = sc.nextLine();

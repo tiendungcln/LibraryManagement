@@ -6,7 +6,9 @@ public class Borrow {
 
     private int borrowId;
     private int memberId;
+    private String memberName;
     private int bookId;
+    private String bookName;
     private Date borrowDate;
     private Date returnDate;
 
@@ -32,6 +34,16 @@ public class Borrow {
         this.bookId = bookId;
     }
 
+    public Borrow(int borrowId, int memberId ,String memberName, int bookId,String bookName, Date borrowDate, Date returnDate){
+        this.borrowId = borrowId;
+        this.memberId = memberId;
+        this.memberName = memberName;
+        this.bookId = bookId;
+        this.bookName = bookName;
+        this.borrowDate = borrowDate;
+        this.returnDate = returnDate;
+    }
+
     public int getBorrowId() {
         return borrowId;
     }
@@ -48,12 +60,28 @@ public class Borrow {
         this.memberId = memberId;
     }
 
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
     public int getBookId() {
         return bookId;
     }
 
     public void setBookId(int bookId) {
         this.bookId = bookId;
+    }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
     public Date getBorrowDate() {
@@ -77,7 +105,9 @@ public class Borrow {
         return "Borrow{" +
                 "borrowId=" + borrowId +
                 ", memberId=" + memberId +
+                ", memberName='" + memberName + '\'' +
                 ", bookId=" + bookId +
+                ", bookName='" + bookName + '\'' +
                 ", borrowDate=" + borrowDate +
                 ", returnDate=" + returnDate +
                 '}';
