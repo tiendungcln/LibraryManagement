@@ -39,7 +39,7 @@ public class BookMenu {
             System.out.println("15. Maximum Book Price");
             System.out.println("16. Minimum Book Price");
             System.out.println("17. Books Per Author");
-            System.out.println("0. Exit");
+            System.out.println("0. Back");
 
             System.out.print("Choose: ");
             int choice = sc.nextInt();

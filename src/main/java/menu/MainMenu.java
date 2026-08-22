@@ -8,6 +8,7 @@ public class MainMenu {
     private BookMenu bookMenu = new BookMenu();
     private AuthorMenu authorMenu = new AuthorMenu();
     private MemberMenu memberMenu = new MemberMenu();
+    private BorrowMenu borrowMenu = new BorrowMenu();
 
     public void start(){
 
@@ -18,6 +19,7 @@ public class MainMenu {
             System.out.println("1. Book Management");
             System.out.println("2. Author Management");
             System.out.println("3. Member Management");
+            System.out.println("4. Borrow Management");
             System.out.println("0. Exit");
 
             // 2. Nhập lựa chọn
@@ -38,6 +40,10 @@ public class MainMenu {
 
                 case 3:
                     memberMenu.start();
+                    break;
+
+                case 4:
+                    borrowMenu.start();
                     break;
 
                 case 0:
