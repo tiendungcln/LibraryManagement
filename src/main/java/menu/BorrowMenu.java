@@ -43,6 +43,10 @@ public class BorrowMenu {
                     showAllBorrows();
                     break;
 
+                case 3:
+                    findBorrowById();
+                    break;
+
                 case 0:
                     return;
 
@@ -123,6 +127,22 @@ public class BorrowMenu {
 
             System.out.println(borrow);
 
+        }
+
+    }
+
+    public void findBorrowById(){
+
+        System.out.print("Enter ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        Borrow borrow = borrowDAO.findBorrowById(id);
+
+        if (borrow != null){
+            System.out.println(borrow);
+        }else{
+            System.out.println("Borrow not found!");
         }
 
     }
