@@ -53,43 +53,66 @@ public class BorrowDAO {
               AND quantity > 0
             """;
 
-        try (
-                Connection connection = DBConnection.getConnection();
-                PreparedStatement psAdd = connection.prepareStatement(sqlAdd);
-                PreparedStatement psDecrease = connection.prepareStatement(sqlDecrease)
-        ) {
+        Connection connection = null;
 
+        try {
+
+            connection = DBConnection.getConnection();
             connection.setAutoCommit(false);
 
-            // 1. Add borrow
-            psAdd.setInt(1, memberId);
-            psAdd.setInt(2, bookId);
+            try (
+                    PreparedStatement psAdd = connection.prepareStatement(sqlAdd);
+                    PreparedStatement psDecrease = connection.prepareStatement(sqlDecrease)
+            ) {
 
-            int borrowRows = psAdd.executeUpdate();
+                // 1. Add borrow
+                psAdd.setInt(1, memberId);
+                psAdd.setInt(2, bookId);
 
-            if (borrowRows == 0) {
-                connection.rollback();
-                return false;
+                int borrowRows = psAdd.executeUpdate();
+
+                if (borrowRows == 0) {
+                    connection.rollback();
+                    return false;
+                }
+
+                // 2. Decrease book quantity
+                psDecrease.setInt(1, bookId);
+
+                int quantityRows = psDecrease.executeUpdate();
+
+                if (quantityRows == 0) {
+                    connection.rollback();
+                    return false;
+                }
+
+                // 3. Both successful
+                connection.commit();
+                return true;
             }
-
-            // 2. Decrease book quantity
-            psDecrease.setInt(1, bookId);
-
-            int quantityRows = psDecrease.executeUpdate();
-
-            if (quantityRows == 0) {
-                connection.rollback();
-                return false;
-            }
-
-            // 3. Both successful
-            connection.commit();
-            return true;
 
         } catch (SQLException | IOException e) {
 
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    rollbackException.printStackTrace();
+                }
+            }
+
             e.printStackTrace();
             return false;
+
+        } finally {
+
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException closeException) {
+                    closeException.printStackTrace();
+                }
+            }
 
         }
 
@@ -228,52 +251,79 @@ public class BorrowDAO {
 //
 //    }
 
-    public boolean returnBook(int borrowId, int bookId){
+    public boolean returnBook(int borrowId, int bookId) {
 
-        String sqlReturn = "UPDATE borrows " +
-                "SET return_date = CURRENT_DATE " +
-                "WHERE borrow_id = ?";
+        String sqlReturn = """
+            UPDATE borrows
+            SET return_date = CURRENT_DATE
+            WHERE borrow_id = ?
+            """;
 
-        String sqlIncrease = "UPDATE books " +
-                "SET quantity = quantity + 1 " +
-                "WHERE book_id = ? ";
+        String sqlIncrease = """
+            UPDATE books
+            SET quantity = quantity + 1
+            WHERE book_id = ?
+            """;
 
-        try (
-                Connection connection = DBConnection.getConnection();
-                PreparedStatement psReturn = connection.prepareStatement(sqlReturn);
-                PreparedStatement psIncrease = connection.prepareStatement(sqlIncrease)
-        ){
+        Connection connection = null;
 
+        try {
+
+            connection = DBConnection.getConnection();
             connection.setAutoCommit(false);
 
-            // 1. Return book
-            psReturn.setInt(1, borrowId);
+            try (
+                    PreparedStatement psReturn = connection.prepareStatement(sqlReturn);
+                    PreparedStatement psIncrease = connection.prepareStatement(sqlIncrease)
+            ) {
 
-            int returnRows = psReturn.executeUpdate();
+                // 1. Return book
+                psReturn.setInt(1, borrowId);
 
-            if (returnRows == 0){
-                connection.rollback();
-                return false;
+                int returnRows = psReturn.executeUpdate();
+
+                if (returnRows == 0) {
+                    connection.rollback();
+                    return false;
+                }
+
+                // 2. Increase book quantity
+                psIncrease.setInt(1, bookId);
+
+                int increaseRows = psIncrease.executeUpdate();
+
+                if (increaseRows == 0) {
+                    connection.rollback();
+                    return false;
+                }
+
+                // 3. Both successful
+                connection.commit();
+                return true;
             }
 
-            // 2. Increase book quantity
-            psIncrease.setInt(1, bookId);
+        } catch (SQLException | IOException e) {
 
-            int increaseRows = psIncrease.executeUpdate();
-
-            if (increaseRows == 0){
-                connection.rollback();
-                return false;
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    rollbackException.printStackTrace();
+                }
             }
-
-            // 3. Both successful
-            connection.commit();
-            return true;
-
-        }catch (SQLException | IOException e){
 
             e.printStackTrace();
             return false;
+
+        } finally {
+
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException closeException) {
+                    closeException.printStackTrace();
+                }
+            }
 
         }
 
