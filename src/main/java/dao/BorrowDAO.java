@@ -13,24 +13,80 @@ import java.util.List;
 
 public class BorrowDAO {
 
-    public boolean addBorrow(Borrow borrow){
+//    public boolean addBorrow(Borrow borrow){
+//
+//        String sql = "INSERT INTO borrows(member_id, book_id) " +
+//                "VALUES(?, ?)";
+//
+//        try (
+//                Connection connection = DBConnection.getConnection();
+//                PreparedStatement ps = connection.prepareStatement(sql)
+//        ){
+//
+//            ps.setInt(1, borrow.getMemberId());
+//            ps.setInt(2, borrow.getBookId());
+//
+//            int rows = ps.executeUpdate();
+//
+//            return rows > 0;
+//
+//        }catch (SQLException | IOException e){
+//
+//            e.printStackTrace();
+//            return false;
+//
+//        }
+//
+//    }
 
-        String sql = "INSERT INTO borrows(member_id, book_id) " +
-                "VALUES(?, ?)";
+    public boolean borrowBook(int memberId, int bookId) {
+
+        String sqlAdd = """
+            INSERT INTO borrows(member_id, book_id)
+            VALUES(?, ?)
+            """;
+
+        String sqlDecrease = """
+            UPDATE books
+            SET quantity = quantity - 1
+            WHERE book_id = ?
+              AND quantity > 0
+            """;
 
         try (
                 Connection connection = DBConnection.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)
-        ){
+                PreparedStatement psAdd = connection.prepareStatement(sqlAdd);
+                PreparedStatement psDecrease = connection.prepareStatement(sqlDecrease)
+        ) {
 
-            ps.setInt(1, borrow.getMemberId());
-            ps.setInt(2, borrow.getBookId());
+            connection.setAutoCommit(false);
 
-            int rows = ps.executeUpdate();
+            // 1. Add borrow
+            psAdd.setInt(1, memberId);
+            psAdd.setInt(2, bookId);
 
-            return rows > 0;
+            int borrowRows = psAdd.executeUpdate();
 
-        }catch (SQLException | IOException e){
+            if (borrowRows == 0) {
+                connection.rollback();
+                return false;
+            }
+
+            // 2. Decrease book quantity
+            psDecrease.setInt(1, bookId);
+
+            int quantityRows = psDecrease.executeUpdate();
+
+            if (quantityRows == 0) {
+                connection.rollback();
+                return false;
+            }
+
+            // 3. Both successful
+            connection.commit();
+            return true;
+
+        } catch (SQLException | IOException e) {
 
             e.printStackTrace();
             return false;
