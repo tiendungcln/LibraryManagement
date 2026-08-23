@@ -224,6 +224,49 @@ public class BorrowMenu {
 
     }
 
+//    public void returnBook(){
+//
+//        System.out.print("Enter ID: ");
+//        int borrowId = sc.nextInt();
+//        sc.nextLine();
+//
+//        Borrow borrow = borrowDAO.findBorrowById(borrowId);
+//
+//        while (borrow == null){
+//
+//            System.out.println("Borrow not found!");
+//
+//            System.out.print("Enter Borrow ID again: ");
+//            borrowId = sc.nextInt();
+//            sc.nextLine();
+//
+//            borrow = borrowDAO.findBorrowById(borrowId);
+//
+//        }
+//
+//        if (borrow.getReturnDate() != null){
+//
+//            System.out.println("Book already returned");
+//            return;
+//
+//        }
+//
+//        boolean result = borrowDAO.returnBook(borrowId);
+//
+//        if (result){
+//
+//            System.out.println("Return book successfully!");
+//
+//            bookDAO.increaseBookQuantity(borrow.getBookId());
+//
+//        }else{
+//
+//            System.out.println("Return book failed!");
+//
+//        }
+//
+//    }
+
     public void returnBook(){
 
         System.out.print("Enter ID: ");
@@ -251,18 +294,12 @@ public class BorrowMenu {
 
         }
 
-        boolean result = borrowDAO.returnBook(borrowId);
+        boolean result = borrowDAO.returnBook(borrowId, borrow.getBookId());
 
         if (result){
-
             System.out.println("Return book successfully!");
-
-            bookDAO.increaseBookQuantity(borrow.getBookId());
-
         }else{
-
             System.out.println("Return book failed!");
-
         }
 
     }

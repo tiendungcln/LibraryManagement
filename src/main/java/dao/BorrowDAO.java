@@ -202,22 +202,73 @@ public class BorrowDAO {
 
     }
 
-    public boolean returnBook(int borrowId){
+//    public boolean returnBook(int borrowId){
+//
+//        String sql = "UPDATE borrows " +
+//                "SET return_date = CURRENT_DATE " +
+//                "WHERE borrow_id = ?";
+//
+//        try (
+//                Connection connection = DBConnection.getConnection();
+//                PreparedStatement ps = connection.prepareStatement(sql)
+//        ){
+//
+//            ps.setInt(1, borrowId);
+//
+//            int rows = ps.executeUpdate();
+//
+//            return rows > 0;
+//
+//        }catch (SQLException | IOException e){
+//
+//            e.printStackTrace();
+//            return false;
+//
+//        }
+//
+//    }
 
-        String sql = "UPDATE borrows " +
+    public boolean returnBook(int borrowId, int bookId){
+
+        String sqlReturn = "UPDATE borrows " +
                 "SET return_date = CURRENT_DATE " +
                 "WHERE borrow_id = ?";
 
+        String sqlIncrease = "UPDATE books " +
+                "SET quantity = quantity + 1 " +
+                "WHERE book_id = ? ";
+
         try (
                 Connection connection = DBConnection.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)
+                PreparedStatement psReturn = connection.prepareStatement(sqlReturn);
+                PreparedStatement psIncrease = connection.prepareStatement(sqlIncrease)
         ){
 
-            ps.setInt(1, borrowId);
+            connection.setAutoCommit(false);
 
-            int rows = ps.executeUpdate();
+            // 1. Return book
+            psReturn.setInt(1, borrowId);
 
-            return rows > 0;
+            int returnRows = psReturn.executeUpdate();
+
+            if (returnRows == 0){
+                connection.rollback();
+                return false;
+            }
+
+            // 2. Increase book quantity
+            psIncrease.setInt(1, bookId);
+
+            int increaseRows = psIncrease.executeUpdate();
+
+            if (increaseRows == 0){
+                connection.rollback();
+                return false;
+            }
+
+            // 3. Both successful
+            connection.commit();
+            return true;
 
         }catch (SQLException | IOException e){
 
